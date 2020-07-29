@@ -81,8 +81,9 @@ df_antibiotics %>%
     ) %>%
   glimpse() %>%
   ggplot(aes(x = bacteria, y = value, color = antibiotic)) +
-  geom_point()
-
+  geom_point() +
+  scale_y_log10() +
+  coord_flip()
 ```
 
 **Observations**:
@@ -103,19 +104,40 @@ __q2__ Create a visualization of `df_antibiotics` that helps you to categorize b
 ```{r q2-task}
 ## TASK: Create your visualization
 
-df_antibiotics %>%
-  pivot_longer(
-    names_to = c("penicillin", "streptomycin", "neomycin"),
-    cols = "bacteria",
-  ) %>%
-  glimpse()
-  #ggplot(aes(x = penicillin, y = value)) +
-  #geom_point()
+
+df_q2 <-
+  df_antibiotics %>%
+    pivot_longer(c(penicillin, streptomycin, neomycin),
+      names_to = "antibiotic",
+      values_to = "value"
+    ) %>%
+    separate(
+      col = bacteria,
+      into = c("genus", "species"),
+      remove = FALSE
+    ) %>%
+  arrange(genus)
+
+df_q2 %>%
+  ggplot(aes(x = antibiotic, y = value)) +
+  geom_col(aes(fill = antibiotic)) +
+  facet_wrap(~ bacteria) +
+  scale_y_log10()
+
+df_q2 %>%
+  ggplot(aes(x = bacteria, y = value, color = genus)) +
+  geom_point(aes(shape = antibiotic)) +
+  scale_y_log10() +
+  coord_flip()
 ```
 
 **Observations**:
 
 - Document your observations here!
+
+Penicillin is ineffective on 5 bacteria.
+
+There is an effective antibiotic for every bacteria on this list.
 
 # References
 <!-- -------------------------------------------------- -->
