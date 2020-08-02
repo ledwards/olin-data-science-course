@@ -228,7 +228,11 @@ Now it's your turn! We just went through guided EDA considering the GDP per capi
 __q5__ Create *at least* three new figures below. With each figure, try to pose new questions about the data.
 
 ```{r q5-task1}
-## TASK: Your first graph
+minYear_df <- gapminder %>%
+  filter(year %in% year_min)
+
+minYear_df %>%
+  select(contin)
 ```
 
 
