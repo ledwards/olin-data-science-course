@@ -300,21 +300,20 @@ df_varietal <-
   group_by(variety) %>%
   summarize(
     ### aroma/flavor notes
-    
-    sweetness = Mode(sweetness),
-    acidity = Mode(acidity),
-    tannin = Mode(tannin),
-    alcohol = Mode(alcohol),
+    tannin = ordered(tannin, levels = c("low", "medium (-)", "medium", "medium (+)", "high"))
+    #sweetness = Mode(sweetness),
+    #acidity = Mode(acidity),
+    #tannin = Mode(tannin),
+    #alcohol = Mode(alcohol),
 
-    intensity = Mode(flavorIntensity),
+    #intensity = Mode(flavorIntensity),
   ) %>%
   glimpse
 
 df_varietal %>%
-  filter(variety %in% c('Merlot', 'Pinot Noir')) %>%
-  ggplot(aes(x = as.factor(variety), y = tannin)) +
-  geom_bar(aes(fill = variety)) +
-  coord_polar()
+  filter(variety %in% c('Gamay', 'Pinot Noir', 'Cabernet Sauvignon')) %>%
+  ggplot(aes(x = variety)) +
+  geom_boxplot(aes(y = tannin))
 ```
 
 ```{r joinDatasets}
